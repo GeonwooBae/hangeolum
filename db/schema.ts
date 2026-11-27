@@ -1,0 +1,8 @@
+import { sqliteTable,text,integer,primaryKey } from 'drizzle-orm/sqlite-core';
+export const users=sqliteTable('users',{id:text('id').primaryKey(),username:text('username').notNull().unique(),nickname:text('nickname').notNull(),passwordHash:text('password_hash').notNull(),salt:text('salt').notNull(),createdAt:integer('created_at').notNull(),lastLoginAt:integer('last_login_at')});
+export const sessions=sqliteTable('sessions',{tokenHash:text('token_hash').primaryKey(),userId:text('user_id').notNull().references(()=>users.id),expiresAt:integer('expires_at').notNull()});
+export const records=sqliteTable('records',{userId:text('user_id').notNull().references(()=>users.id),key:text('key').notNull(),value:text('value').notNull(),updatedAt:integer('updated_at').notNull()},t=>[primaryKey({columns:[t.userId,t.key]})]);
+export const files=sqliteTable('files',{userId:text('user_id').notNull().references(()=>users.id),id:text('id').notNull(),objectKey:text('object_key').notNull(),type:text('type').notNull(),size:integer('size').notNull()},t=>[primaryKey({columns:[t.userId,t.id]})]);
+export const rateLimits=sqliteTable('rate_limits',{key:text('key').primaryKey(),count:integer('count').notNull(),expiresAt:integer('expires_at').notNull()});
+export const analyticsMeta=sqliteTable('analytics_meta',{key:text('key').primaryKey(),value:text('value').notNull()});
+export const analyticsVisits=sqliteTable('analytics_visits',{day:text('day').notNull(),sessionKey:text('session_key').notNull(),visitorKey:text('visitor_key').notNull(),userId:text('user_id'),createdAt:integer('created_at').notNull()},t=>[primaryKey({columns:[t.day,t.sessionKey]})]);
