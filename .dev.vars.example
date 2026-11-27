@@ -1,0 +1,4 @@
+# Copy to .dev.vars and fill locally. Never commit .dev.vars.
+OPENAI_API_KEY=
+# Optional: internal ID of the admin account, not its username
+ADMIN_USER_ID=
