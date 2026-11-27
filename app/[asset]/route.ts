@@ -1,0 +1,2 @@
+import assets from '../../web/embedded';
+export function GET(request:Request){const name=new URL(request.url).pathname.slice(1);if(name!=='app.js'&&name!=='style.css')return new Response('Not found',{status:404});return new Response(assets[name],{headers:{'Content-Type':name.endsWith('.js')?'application/javascript; charset=utf-8':'text/css; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}})}
